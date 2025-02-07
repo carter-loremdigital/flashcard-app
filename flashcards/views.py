@@ -8,17 +8,24 @@ from .serializers import DeckSerializer, FlashcardSerializer
 # Django REST Framework generic views - simplify CRUD operations w/ built-in Django views
 # Deck Views
 class DeckListCreateView(generics.ListCreateAPIView):
-    queryset = Deck.objects.all()
-    serializer_class = DeckSerializer
-    permission_classes = [permissions.IsAuthenticated]  # Require authentication
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)  # Associate with logged-in user
-
-class DeckDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Deck.objects.all()
     serializer_class = DeckSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Return only decks owned by the authenticated user
+        return Deck.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically associate the deck with the logged-in user
+        serializer.save(owner=self.request.user)
+
+class DeckDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DeckSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Only allow access to decks owned by the logged-in user
+        return Deck.objects.filter(owner=self.request.user)
 
 
 # Flashcard Views
