@@ -11,6 +11,7 @@ class Deck(models.Model):
         User, on_delete=models.CASCADE, related_name='decks'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -25,7 +26,6 @@ class Flashcard(models.Model):
         User, on_delete=models.CASCADE, related_name='flashcards'
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Flashcard in {self.deck.name}"

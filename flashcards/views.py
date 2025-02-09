@@ -88,6 +88,18 @@ class BulkFlashcardCreateView(views.APIView):
         else:
             return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Endpoint for deleting cards in bulk (e.g. when saving an edited deck)
+class BulkFlashcardDeleteView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        deck_id = request.query_params.get('deck')
+        if not deck_id:
+            return response.Response({"error": "Deck id is required."}, status=status.HTTP_400_BAD_REQUEST)
+        # Delete all flashcards for this deck owned by the current user
+        Flashcard.objects.filter(deck=deck_id, owner=request.user).delete()
+        return response.Response({"message": "Flashcards deleted successfully."}, status=status.HTTP_200_OK)
+
 
 # Authentication views
 class SignupView(generics.CreateAPIView):
