@@ -147,4 +147,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # For anonymous requests (IP-based)
+        'rest_framework.throttling.UserRateThrottle',  # For authenticated users
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '50/hour',    # Limit anonymous requests to 50 per hour per IP
+        'user': '500/hour',   # Limit authenticated users to 500 requests per hour
+        
+        # 'anon': '5/hour',    # Uncomment for testing
+        # 'user': '5/hour',    # Uncomment for testing
+    },
 }
