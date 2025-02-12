@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-# from decouple import config
+from decouple import config
 import os
 import dj_database_url
 import environ
@@ -102,12 +102,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-        # 'NAME': config("PGDATABASE"),
-        # 'USER': config("PGUSER"),
-        # 'PASSWORD': config("PGPASSWORD"),
-        # 'HOST': config("PGHOST"),
-        # 'PORT': config("PGPORT"),
+        # 'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+        'NAME': config("PGDATABASE"),
+        'USER': config("PGUSER"),
+        'PASSWORD': config("PGPASSWORD"),
+        'HOST': config("PGHOST"),
+        'PORT': config("PGPORT"),
         # Uncomment for dev environment
         # 'NAME': config('DB_NAME'),
         # 'USER': config('DB_USER'),
