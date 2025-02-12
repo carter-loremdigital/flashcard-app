@@ -75,6 +75,10 @@ MIDDLEWARE = [
 # CORS configuration; set this variable in your .env file as a comma-separated list if needed.
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"])
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://flashcard-app-backend-production.up.railway.app/"
+]
+
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
