@@ -38,7 +38,8 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # ALLOWED_HOSTS = [
 #     ".railway.app"
 # ]
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']
+ALLOWED_HOSTS=['*']
 
 # Application definition
 
@@ -74,7 +75,9 @@ MIDDLEWARE = [
 # CORS_ALLOWED_ORIGINS = [
     # "http://localhost:5173",
 # ]
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"]).split(',')
+# CORS_ALLOWED_ORIGINS = os.environ.list('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"]).split(',')
+
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
 
 ROOT_URLCONF = 'backend.urls'
 
