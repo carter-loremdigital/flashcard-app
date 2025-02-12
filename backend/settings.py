@@ -38,7 +38,7 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 # ALLOWED_HOSTS = [
 #     ".railway.app"
 # ]
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']
 
 # Application definition
 
@@ -70,10 +70,10 @@ MIDDLEWARE = [
 ]
 
 # CORS configuration for running locally
-CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
     # "http://localhost:5173",
-]
-
+# ]
+CORS_ALLOWED_ORIGINS = os.environ.list('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"])
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -101,8 +101,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
         'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-        # 'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': config("PGDATABASE"),
         # 'USER': config("PGUSER"),
         # 'PASSWORD': config("PGPASSWORD"),
