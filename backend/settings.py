@@ -107,6 +107,9 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres://user:password@localhost:5432/dbname')
 }
 
+# Keep database connections alive for 10 minutes (600 seconds)
+DATABASES['default']['CONN_MAX_AGE'] = 600
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
