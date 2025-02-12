@@ -11,39 +11,40 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
 import os
-import dj_database_url
 import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-environ.Env.read_env()
+# Initialize environ and read the .env file if it exists.
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# print(DEBUG)
+# Optionally, read a .env file if present in development.
+env_file = BASE_DIR / ".env"
+if env_file.exists():
+    environ.Env.read_env(env_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = config('SECRET_KEY')  # Uncomment for development
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-# DEBUG = False 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = env.bool('DEBUG')
 
-# ALLOWED_HOSTS = [
-#     ".railway.app"
-# ]
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',') if os.environ.get('ALLOWED_HOSTS') else ['*']
-ALLOWED_HOSTS=['*']
+# ALLOWED_HOSTS=localhost,127.0.0.1,.railway.app
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -71,13 +72,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS configuration for running locally
-# CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:5173",
-# ]
-# CORS_ALLOWED_ORIGINS = os.environ.list('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"]).split(',')
-
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
+# CORS configuration; set this variable in your .env file as a comma-separated list if needed.
+CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=["http://localhost:5173"])
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -104,23 +100,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        # 'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-        'NAME': config("PGDATABASE"),
-        'USER': config("PGUSER"),
-        'PASSWORD': config("PGPASSWORD"),
-        'HOST': config("PGHOST"),
-        'PORT': config("PGPORT"),
-        # Uncomment for dev environment
-        # 'NAME': config('DB_NAME'),
-        # 'USER': config('DB_USER'),
-        # 'PASSWORD': config('DB_PASSWORD'),
-        # 'HOST': config('DB_HOST', default='localhost'),
-        # 'PORT': config('DB_PORT', default='5432'),
-    }
+    'default': env.db('DATABASE_URL', default='postgres://user:password@localhost:5432/dbname')
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
