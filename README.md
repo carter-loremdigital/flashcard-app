@@ -100,16 +100,18 @@ The backend will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ## 📌 API Endpoints
 
-| Endpoint                | Method           | Description                                  |
-| ----------------------- | ---------------- | -------------------------------------------- |
-| `/api/signup/`          | POST             | Register a new user                          |
-| `/api/token/`           | POST             | Get access & refresh tokens                  |
-| `/api/token/refresh/`   | POST             | Refresh JWT access token                     |
-| `/api/decks/`           | GET, POST        | List all decks / Create a new deck           |
-| `/api/decks/{id}/`      | GET, PUT, DELETE | Retrieve, update, or delete a deck           |
-| `/api/flashcards/`      | GET, POST        | List all flashcards / Create a new flashcard |
-| `/api/flashcards/{id}/` | GET, PUT, DELETE | Retrieve, update, or delete a flashcard      |
-| `/api/study/{deck_id}/` | GET              | Fetch randomized flashcards for studying     |
+| Endpoint                       | Method           | Description                                  |
+| ------------------------------ | ---------------- | -------------------------------------------- |
+| `/api/signup/`                 | POST             | Register a new user                          |
+| `/api/token/`                  | POST             | Get access & refresh tokens                  |
+| `/api/token/refresh/`          | POST             | Refresh JWT access token                     |
+| `/api/decks/`                  | GET, POST        | List all decks / Create a new deck           |
+| `/api/decks/{id}/`             | GET, PUT, DELETE | Retrieve, update, or delete a deck           |
+| `/api/flashcards/`             | GET, POST        | List all flashcards / Create a new flashcard |
+| `/api/flashcards/{id}/`        | GET, PUT, DELETE | Retrieve, update, or delete a flashcard      |
+| `/api/flashcards/bulk_create/` | POST             | Create multiple flashcards in bulk           |
+| `/api/flashcards/bulk_delete/` | DELETE           | Delete multiple flashcards in bulk           |
+| `/api/study/{deck_id}/`        | GET              | Fetch randomized flashcards for studying     |
 
 ---
 
